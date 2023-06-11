@@ -1,0 +1,6 @@
+[workspace]
+members = ["algos/*", "cli", "core"]
+
+[workspace.dependencies]
+shift-and.path = "./algos/shift-and"
+core.path = "./core"
