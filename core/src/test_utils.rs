@@ -44,6 +44,8 @@ pub fn all_tests<'t, 'p, S: Search<'t, 'p>>() {
 pub fn basic_tests<'t, 'p, S: Search<'t, 'p>>() {
     let cases = &[
         ("abcABCabc", "A", Some(3)),
+        ("abcd", "abcd", Some(0)),
+        ("abcde", "abcd", Some(0)),
         ("abcABCabc", "Z", None),
         ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", "aaaab", Some(26)),
     ];
