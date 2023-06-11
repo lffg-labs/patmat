@@ -1,3 +1,5 @@
+#![allow(clippy::missing_panics_doc)]
+
 use crate::Search;
 
 //
@@ -29,11 +31,11 @@ pub fn multiple<'t, 'p, S: Search<'t, 'p>>(t: &'t str, p: &'p str, expected: &[u
 pub fn all_tests<'t, 'p, S: Search<'t, 'p>>() {
     println!("@@@ basic_tests @@@");
     basic_tests::<S>();
-    println!("");
+    println!();
 
     println!("@@@ multiple_occurrences_tests @@@");
     multiple_occurrences_tests::<S>();
-    println!("");
+    println!();
 
     println!("@@@ single_occurrence_tests @@@");
     single_occurrence_tests::<S>();
@@ -60,6 +62,7 @@ pub fn multiple_occurrences_tests<'t, 'p, S: Search<'t, 'p>>() {
     }
 }
 
+#[allow(clippy::too_many_lines)]
 pub fn single_occurrence_tests<'t, 'p, S: Search<'t, 'p>>() {
     // Taken from:
     // https://cs.opensource.google/go/go/+/refs/heads/master:src/strings/strings_test.go;l=45;drc=0b3f58c48e3298e49e27f80dc748f0652339d63e

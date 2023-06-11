@@ -26,7 +26,7 @@ where
 {
     fn count(mut self) -> usize {
         let mut n = 0;
-        while let Some(_) = self.search() {
+        while self.search().is_some() {
             n += 1;
         }
         n
