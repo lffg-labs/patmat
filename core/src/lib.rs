@@ -1,3 +1,6 @@
+#[cfg(feature = "test-utils")]
+pub mod test_utils;
+
 /// A trait used to encode basic pattern matching algorithms.
 pub trait Search<'t, 'p> {
     /// Constructs a new searcher.
