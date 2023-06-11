@@ -1,0 +1,11 @@
+[package]
+name = "rabin-karp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+core.workspace = true
+adler32.workspace = true
+
+[dev-dependencies]
+core = { workspace = true, features = ["test-utils"] }
