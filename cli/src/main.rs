@@ -84,7 +84,7 @@ fn main() -> Result<()> {
                 println!("{i}");
             }
             if !found {
-                println!("no matches");
+                println!("(no matches)");
             }
         });
     });
