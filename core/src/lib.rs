@@ -4,7 +4,9 @@ pub mod test_utils;
 /// A trait used to encode basic pattern matching algorithms.
 pub trait Search<'t, 'p> {
     /// Constructs a new searcher.
-    fn new(text: &'t [u8], pattern: &'p [u8]) -> Self;
+    fn new(text: &'t [u8], pattern: &'p [u8]) -> Self
+    where
+        Self: Sized;
 
     /// Searches for the pattern in the text. Returns the index where the match
     /// was found in a `Some` until there is no more matches—and `None` is

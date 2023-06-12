@@ -2,7 +2,10 @@
 members = ["algos/*", "cli", "core"]
 
 [workspace.dependencies]
-shift-and.path = "./algos/shift-and"
 core.path = "./core"
 
-adler32 = "1.2.0"
+rabin-karp.path = "./algos/rabin-karp"
+shift-and.path = "./algos/shift-and"
+
+adler32 = "1"
+clap = { version = "4", features = ["derive"] }

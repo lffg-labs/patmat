@@ -1,4 +1,12 @@
 [package]
-name = "cli"
+name = "patmat"
 version = "0.1.0"
 edition = "2021"
+
+[dependencies]
+core.workspace = true
+
+rabin-karp.workspace = true
+shift-and.workspace = true
+
+clap.workspace = true
