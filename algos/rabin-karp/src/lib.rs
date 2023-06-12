@@ -30,25 +30,46 @@ where
     fn search(&mut self) -> Option<usize> {
         let mut hasher = H::new();
 
+        // Since this implementation allows for multiple searches in the same
+        // text, the cursor is used to keep track of the current position as per
+        // the previous `search` call.
         let text = &self.text[self.cursor..];
 
-        let n = text.len();
-        let m = self.pattern.len();
+        let t = text.len();
+        let p = self.pattern.len();
 
-        if n < m {
+        // If the text's length is smaller than the pattern's, one's obviously
+        // not going to find a match. Finish it now.
+        if t < p {
             return None;
         }
 
+        // Calculate the hash for the pattern. For each character in the stream,
+        // one'll check against this hash value.
         let pattern_hash = hash(&mut hasher, self.pattern);
 
-        for i in 0..=n - m {
-            // FIXME: This is O(n) and doesn't take advantage of the rolling hash.
-            let hs = hash(&mut hasher, &text[i..i + m]);
+        for i in 0..=t - p {
+            // FIXME: The following line computes the hash in O(n) time, for
+            // each new character in the stream.
+            //
+            // This is not currently optimized since one doesn't leverage the
+            // rolling hash ability to feed-and-remove a single byte, in
+            // constant time.
+            //
+            // This shall be optimized later.
+            let hs = hash(&mut hasher, &text[i..i + p]);
 
             let old = self.cursor;
             self.cursor += 1;
 
-            if hs == pattern_hash && &text[i..i + m] == self.pattern {
+            // If the current hash (for the current character) is equal to the
+            // pattern's hash, then one manually compare the current text
+            // against the match.
+            //
+            // This second comparison is necessary to prevent errors that may
+            // happen due to false positive errors by the underlying hash
+            // function.
+            if hs == pattern_hash && &text[i..i + p] == self.pattern {
                 return Some(old);
             }
         }
