@@ -47,6 +47,7 @@ where
         // Calculate the hash for the pattern. For each character in the stream,
         // one'll check against this hash value.
         let pattern_hash = hash(&mut hasher, self.pattern);
+        hasher.reset();
 
         for i in 0..=t - p {
             // FIXME: The following line computes the hash in O(n) time, for
@@ -72,14 +73,46 @@ where
             if hs == pattern_hash && &text[i..i + p] == self.pattern {
                 return Some(old);
             }
+
+            i += 1;
         }
+
+        if hasher.hash() == pattern_hash && &text[i..i + p] == self.pattern {
+            return Some(self.cursor);
+        }
+
+        // for (i, char) in text[p..].iter().enumerate() {
+        //     let hs = hasher.hash();
+
+        //     hasher.remove(p, text[i]);
+        //     hasher.update(*char);
+
+        //     let old = self.cursor;
+        //     self.cursor += 1;
+
+        //     if hs == pattern_hash && &text[i..i + p] == self.pattern {
+        //         return Some(old);
+        //     }
+        // }
+
+        // for i in 0..=n - m {
+        //     println!("@@ [{}]", std::str::from_utf8(&text[i..i + m]).unwrap());
+
+        //     let hs = hasher.hash();
+
+        //     let old = self.cursor;
+        //     self.cursor += 1;
+
+        //     if hs == pattern_hash && &text[i..i + m] == self.pattern {
+        //         return Some(old);
+        //     }
+        // }
 
         None
     }
 }
 
 fn hash(hasher: &mut impl RollingHasher, bytes: &[u8]) -> u32 {
-    hasher.reset();
     hasher.update_buffer(bytes);
     hasher.hash()
 }
@@ -93,3 +126,11 @@ mod tests {
         core::test_utils::all_tests::<RabinKarp>();
     }
 }
+
+// @@ [x0123456789012345678901234567890]
+// @@ [0123456789012345678901234567890x]
+// @@ [123456789012345678901234567890x0]
+// @@ [23456789012345678901234567890x01]
+// @@ [3456789012345678901234567890x012]
+// @@ [456789012345678901234567890x0123]
+// @@ [56789012345678901234567890x01234]
